@@ -1,0 +1,12 @@
+version: "3"
+services:
+  api_server:
+    build:
+      context: server
+      dockerfile: Dockerfile
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 8080:8080
+    # environment:
+    # depends_on:
