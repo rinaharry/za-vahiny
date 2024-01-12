@@ -1,0 +1,16 @@
+version: '3'
+services:
+
+  # db:
+  #   image: postgres
+  #   environment:
+  #     POSTGRES_USER: myuser
+  #     POSTGRES_PASSWORD: mypassword
+  #     POSTGRES_DB: book_db
+
+  rustapi:
+    build:
+      context: server
+      dockerfile: DockerFile
+    ports:
+      - "3000:3000"
