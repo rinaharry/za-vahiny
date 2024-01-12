@@ -1,8 +1,8 @@
 [package]
-name = "my-rust-app"
+name = "server"
 version = "0.1.0"
 
 
 [[bin]]
-name = "my-rust-app"
+name = "server"
 path = "src/main.rs"
