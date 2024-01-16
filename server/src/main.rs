@@ -55,7 +55,7 @@ async fn main() -> std::io::Result<()> {
     info!("Starting actix-web server...");
 
     let port_url = env::var("PORT").expect("PORT_URL not found in .env");
-    let url = format!("127.0.0.1:{PORT}", PORT = port_url);
+    let url = format!("0.0.0.0:{PORT}", PORT = port_url);
     let server = HttpServer::new(|| {
         let cors = Cors::default()
                              .allow_any_origin().send_wildcard();
