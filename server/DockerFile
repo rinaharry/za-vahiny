@@ -1,5 +1,35 @@
-FROM rust:latest
+# FROM rust:latest
+# WORKDIR /app
+# COPY . .
+# RUN cargo build --release
+# CMD ["./target/release/server"]
+
+
+
+# Build stage
+FROM rust:1.75-buster as builder
+
 WORKDIR /app
+
+# # Accept the build argument
+# ARG DATABASE_URL
+
+# # Make sure to use the ARG in ENV
+# ENV DATABASE_URL=$DATABASE_URL
+
+# Copy the source code
 COPY . .
-RUN cargo build --release
-CMD ["./target/release/server"]
+
+# Build the application
+
+RUN CARGO_NET_GIT_FETCH_WITH_CLI=true cargo build --release
+
+
+# Production stage
+FROM debian:buster-slim
+
+WORKDIR /usr/local/bin
+
+COPY --from=builder /app/target/release/server .
+
+CMD ["./server"]
