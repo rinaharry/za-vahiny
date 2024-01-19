@@ -1,29 +1,37 @@
-version: '3'
+version: '3.9'
 services:
   db:
     image: postgres
     environment:
       POSTGRES_USER: myuser
       POSTGRES_PASSWORD: 1234
-      # POSTGRES_DB: za_vahiny
+      POSTGRES_DB: za_vahiny
+      PHP_PG_ADMIN_SERVER_HOST: postgres
+      POSTGRES_HOST: postgres
     volumes:
         - postgres-data:/var/lib/postgresql/data    
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - 8088:80
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=superadmin@za-vahiny.com
+      - PGADMIN_DEFAULT_PASSWORD=vahiny@1234
+      - INDEXING_AUTHORIZED_OPEN_CLOSE=false
+
 
   rustapi:
     container_name: rustapi
     build:
       context: ./server
-      dockerfile: DockerFile
+      dockerfile: Dev.DockerFile
     ports:
       - "3001:3001"
     environment:
       - PORT=3001
-    # volumes:
-    #   - ./backend:/server
-    #   - cargo-cache:/usr/local/cargo/registry
-    #   - target-cache:/app/target  
-    # command: /bin/sh -c "cargo watch -x run"
+      - DATABASE_URL=postgres://myuser:1234@db:5432/za_vahiny
 
+  
 volumes:
   postgres-data:
 #     cargo-cache:
